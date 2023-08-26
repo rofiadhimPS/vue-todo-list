@@ -1,26 +1,12 @@
 <script setup>
-import { reactive, ref } from 'vue'
-const list = reactive([
-  {
-    name: 'First List'
-  },
-  {
-    name: 'Second List'
-  }
-]);
+import { ref } from 'vue'
+import { useListStore } from '../stores/lists';
+
+const store = useListStore()
+
 // ref input
 const nameInput = ref('')
-// regular function
-// function addList(params) {
-//   list.push({ name: params })
-// }
-// arrow function
-const addList = (params) => {
-  if (params) {
-    list.push({ name: params })
-    nameInput.value = ''
-  }
-}
+
 </script>
 
 <template>
@@ -33,11 +19,11 @@ const addList = (params) => {
     v-model="nameInput"
     type="text"
     name="name"
-    @keyup.enter="addList(nameInput)"
+    @keyup.enter="store.addList(nameInput); nameInput = ''"
   />
 
   <ol>
-    <template v-for="item in list" v-bind:key="item">
+    <template v-for="item in store.getlist" v-bind:key="item">
       <li>{{ item.name }}</li>
     </template>
   </ol>
