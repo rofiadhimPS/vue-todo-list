@@ -16,6 +16,10 @@ defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+  required: {
+    type: Boolean,
+    default: false
   }
 })
 // komunikasi dari children ke parents; emit
@@ -31,6 +35,7 @@ defineEmits(['update:modelValue'])
     :name="name"
     :placeholder="placeholder"
     :value="modelValue"
+    :required="required"
     @input="(e) => $emit('update:modelValue', e.target.value)"
   />
 </template>
