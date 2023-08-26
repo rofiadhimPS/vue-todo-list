@@ -26,6 +26,11 @@ function onSubmit() {
    // reset form
    Object.assign(input, ref({ ...defaultInput }))
 }
+
+function detailList(index) {
+  const detail = store.getDetail(index);
+  console.log(detail);
+}
 </script>
 
 <template>
@@ -51,7 +56,9 @@ function onSubmit() {
   <!-- null chaining (?.), nullish coalescing (??); ternary operator; not operator -->
   <li class="underline">
           <button class="red" @click="() => store.removeList(index)">&times;</button>
-          {{ item.name }} ({{ item.hobby }}) - {{ !!item?.description ? item.description : 'description?' }}
+          <button class="orange" @click="() => detailList(index)">&#9998;</button>
+          {{ item.name }} ({{ item.hobby }}) -
+          {{ !!item?.description ? item.description : 'description?' }}
     </li>
   </template>
 </ol>
@@ -74,7 +81,12 @@ function onSubmit() {
   }
 }
 
-button.red {
-  color: red;
+button {
+  .red {
+    color: red;
+  }
+  .orange {
+    color: orange;
+  }
 }
 </style>
