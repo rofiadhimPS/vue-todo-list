@@ -1,12 +1,25 @@
 <script setup>
 import { ref } from 'vue'
-import { useListStore } from '../stores/lists';
+import { useListStore } from '../stores/lists'
 
+// store container
 const store = useListStore()
+// initial input / default input
+const defaultInput = {
+  name: '',
+  hobby: ''
+}
 
 // ref input
-const nameInput = ref('')
+const input = ref({ ...defaultInput})
 
+// function yg menerima submit form
+function onSubmit() {
+  // event.preventDefault();
+  console.log({ ...input.value })
+  // add list via store
+  store.addList({ ...input.value })
+}
 </script>
 
 <template>
@@ -17,19 +30,18 @@ const nameInput = ref('')
 <!-- add v-model to integrate data binding with ref -->
 <!-- add event handler listener when keyup enter -->
 <!-- method handler with addList function -->
-<!-- event modifier .enter -->
-<input
-  class="input"
-  v-model="nameInput"
-  type="text"
-  name="name"
-  @keyup.enter="store.addList(nameInput); nameInput = ''"
-/>
+<!-- event modifier .enter, .prevent -->
+<form class="form" @submit.prevent="onSubmit">
+      <input class="input" v-model="input.name" type="text" name="name" placeholder="John" />
+      <input class="input" v-model="input.hobby" type="text" name="hobby" placeholder="Gaming" />
+      <button type="submit">Submit</button>
+    </form>
 
 <h4>Tasks</h4>
 <ol class="list">
-  <template v-for="item in store.getList" v-bind:key="item">
-    <li class="underline">{{ item.name }}</li>
+  <!-- (item, index) -->
+  <template v-for="(item, index) in store.getList" :key="index">
+  <li class="underline">{{ item.name }} ({{ item.hobby }}) - {{ index }}</li>
   </template>
 </ol>
 </div>
@@ -39,8 +51,13 @@ const nameInput = ref('')
 <!-- scoped untuk melimitasi hanya di komponen -->
 <style scoped lang="scss">
 /* body = font-size: 16px (1rem) */
-.input {
-  /* 2rem = 16px * 2 */
+
+.form {
+  .input {
+    /* 2rem = 16px * 2 */
+    margin-block-end: 1rem;
+    width: 100%;
+  }
   margin-block-end: 2rem;
 }
 .list {
