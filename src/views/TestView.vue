@@ -48,7 +48,9 @@ function detailList(index) {
 function toggleComplete(index) {
   const detail = store.getDetail(index)
   store.editList(index, {
+    // pass all entries in detail object
     ...detail.value,
+    // take completed value then toggle it
     completed: !detail.value.completed
   })
 }

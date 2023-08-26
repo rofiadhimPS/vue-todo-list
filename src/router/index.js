@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TestView from '../views/TestView.vue'
+import { useAuthStore } from '@store/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,8 @@ const router = createRouter({
     },
     {
       path: '/profile',
+      name: 'Profile',
+      redirect: { name: 'Login' },
       children: [
         {
           path: '',
@@ -33,9 +36,12 @@ const router = createRouter({
           component: () => import('@/views/Profile/LoginView.vue')
         },
         {
-          path: 'detail/:id',
+          // add optional params
+          path: 'detail/:id?',
           name: 'Authenticated',
-          component: () => import('@/views/Profile/AuthenticatedView.vue')
+          component: () => import('@/views/Profile/AuthenticatedView.vue'),
+          // set protected route
+          meta: { auth: true }
         }
       ]
     },
@@ -45,6 +51,20 @@ const router = createRouter({
       component: () => import('@/views/NotFoundView.vue')
     }
   ]
+})
+
+// navigation guards
+router.beforeEach((to, from, next) => {
+  // get auth state
+  const loggedIn = useAuthStore().isLoggedIn
+  // if target route requires auth & no logged in user
+  // redirect to login
+  if (to.meta.auth && !loggedIn) {
+    next({ name: 'Login' })
+  } else {
+    // else then proceeds
+    next()
+  }
 })
 
 export default router
