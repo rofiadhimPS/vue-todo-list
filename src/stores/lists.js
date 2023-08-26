@@ -32,5 +32,9 @@ export const useListStore = defineStore('list', () => {
     list.splice(index, 1)
   }
 
-  return { list, getList, getDetail, addList, removeList }
+  const editList = (index, data) => {
+    list[index] = data
+  }
+
+  return { list, getList, getDetail, addList, removeList, editList}
 })
