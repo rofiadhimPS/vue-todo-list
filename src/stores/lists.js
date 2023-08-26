@@ -26,5 +26,10 @@ export const useListStore = defineStore('list', () => {
     }
   }
 
-  return { list, getList, addList }
+  const removeList = (index) => {
+    // use splice to delete instead of filter then assign to existing reactive state
+    list.splice(index, 1)
+  }
+
+  return { list, getList, addList, removeList }
 })

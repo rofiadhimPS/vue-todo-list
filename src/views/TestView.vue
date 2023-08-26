@@ -49,7 +49,10 @@ function onSubmit() {
   <!-- (item, index) -->
   <template v-for="(item, index) in store.getList" :key="index">
   <!-- null chaining (?.), nullish coalescing (??); ternary operator; not operator -->
-  <li class="underline">{{ item.name }} ({{ item.hobby }}) - {{ !!item?.description ? item.description : 'description?' }}</li>
+  <li class="underline">
+          <button class="red" @click="() => store.removeList(index)">&times;</button>
+          {{ item.name }} ({{ item.hobby }}) - {{ !!item?.description ? item.description : 'description?' }}
+    </li>
   </template>
 </ol>
 </div>
@@ -69,5 +72,9 @@ function onSubmit() {
   & > .underline {
     text-decoration: underline;
   }
+}
+
+button.red {
+  color: red;
 }
 </style>
