@@ -7,10 +7,12 @@ export const useListStore = defineStore('list', () => {
     {
       name: 'John',
       hobby: 'Swimming',
+      description: 'Everyweek'
     },
     {
       name: 'Ilham',
       hobby: 'reading',
+      description: 'null'
     }
   ])
 
